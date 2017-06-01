@@ -41,32 +41,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf()
+                .disable();
+
         http
                 .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/","login").permitAll()
-                .antMatchers( "/api/**").authenticated()
-                .and()
-                .csrf()
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .antMatchers("/", "login").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .requestCache().requestCache(new NullRequestCache())
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                    .successHandler(customAuthenticationSuccessHandler)
-                    .failureHandler(customAuthenticationFailureHandler)
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
                 .and()
                 .logout()
-                    .logoutSuccessHandler(customLogoutSuccessHandler)
+                .logoutSuccessHandler(customLogoutSuccessHandler)
                 .permitAll()
                 .and()
-                    .httpBasic().disable();
+                .httpBasic().disable();
     }
 
     @Override
