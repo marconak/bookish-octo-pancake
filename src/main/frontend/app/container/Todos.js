@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import TodoAdd from '../component/TodoAdd.js';
 import TodoList from '../component/TodoList.js';
+import Pagination from '../component/Pagination.js';
 
 import { addTodo, updateTodo, deleteTodo, getTodos } from '../actions.js';
 
@@ -18,6 +19,7 @@ export default class Todos extends Component {
     this.onComplete = this.onComplete.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.loadTodos = this.loadTodos.bind(this);
+    this.onPagination = this.onPagination.bind(this);
   }
 
   componentDidMount() {
@@ -58,12 +60,24 @@ export default class Todos extends Component {
     });
   }
 
+  onPagination(number) {
+    var pagination = this.state.pagination;
+    pagination.page = pagination.page + number;
+    this.setState({ pagination: pagination });
+    this.loadTodos();
+    console.log(number);
+  }
+
   render() {
+    const newerClass = this.state.pagination.page <= 1 ? 'disabled' : '';
+    const olderClass = this.state.pagination.page >= this.state.pagination.totalPages ? 'disabled' : '';
+
     return (
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
           <TodoAdd onAdd={this.onAdd} />
           <TodoList todos={this.state.todos} onComplete={this.onComplete} onDelete={this.onDelete} />
+          <Pagination onPagination={this.onPagination} newerClass={newerClass} olderClass={olderClass} />
         </div>
       </div>
     );
