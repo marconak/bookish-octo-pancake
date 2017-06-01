@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Nav from './Nav.js';
+import { login } from '../actions.js';
 
 class App extends Component {
   constructor(props) {
@@ -13,8 +14,12 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
   }
 
-  logIn(name, password) {
+  logIn(name, pass) {
     this.setState({ isLogged: true });
+    login(name, pass).then(result => {
+      console.log(result);
+    });
+
     this.setState({ userName: 'User Name' });
   }
 
