@@ -16,7 +16,7 @@ export default class Todos extends Component {
       pagination: { page: 1, perPage: PER_PAGE, totalPages: 0, totalElements: 0 }
     };
     this.onAdd = this.onAdd.bind(this);
-    this.onComplete = this.onComplete.bind(this);
+    this.onUpdate = this.onUpdate.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.loadTodos = this.loadTodos.bind(this);
     this.onPagination = this.onPagination.bind(this);
@@ -35,8 +35,7 @@ export default class Todos extends Component {
     });
   }
 
-  onComplete(inTodo) {
-    inTodo.completed = !inTodo.completed;
+  onUpdate(inTodo) {
     updateTodo(inTodo).then(updated => {
       var todos = this.state.todos.map(todo => {
         return todo.id === updated.id ? updated : todo;
@@ -65,7 +64,6 @@ export default class Todos extends Component {
     pagination.page = pagination.page + number;
     this.setState({ pagination: pagination });
     this.loadTodos();
-    console.log(number);
   }
 
   render() {
@@ -76,7 +74,7 @@ export default class Todos extends Component {
       <div className="row">
         <div className="col-md-6 col-md-offset-3">
           <TodoAdd onAdd={this.onAdd} />
-          <TodoList todos={this.state.todos} onComplete={this.onComplete} onDelete={this.onDelete} />
+          <TodoList todos={this.state.todos} onUpdate={this.onUpdate} onDelete={this.onDelete} />
           <Pagination onPagination={this.onPagination} newerClass={newerClass} olderClass={olderClass} />
         </div>
       </div>

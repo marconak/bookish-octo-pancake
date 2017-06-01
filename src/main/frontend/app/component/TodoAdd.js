@@ -13,11 +13,12 @@ export default class TodoAdd extends Component {
     this.setState({ value: event.target.value });
   }
 
-  addNewTodo() {
+  addNewTodo(event) {
     if (this.state.value.length >= 3 && this.state.value.length < 256) {
       this.props.onAdd(this.state.value);
       this.setState({ value: '' });
     }
+    event.preventDefault();
   }
 
   render() {
