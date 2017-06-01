@@ -1,31 +1,56 @@
 import React, { Component } from 'react';
 import Nav from './Nav.js';
-import { login } from '../actions.js';
+import { login, getUser, logout } from '../actions.js';
+import Storage from '../helpers/storage.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    var token = Storage.getToken();
+    var isLogged = token && token !== null;
+
     this.state = {
-      isLogged: false,
+      isLogged: isLogged,
       userName: ''
     };
 
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.loadUser = this.loadUser.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.state.isLogged) {
+      this.loadUser();
+    }
+  }
+
+  loadUser() {
+    getUser()
+      .then(user => {
+        this.setState({ userName: user.username });
+      })
+      .catch(() => {
+        this.setState({ isLogged: false });
+      });
   }
 
   logIn(name, pass) {
     this.setState({ isLogged: true });
-    login(name, pass).then(result => {
-      console.log(result);
-    });
-
-    this.setState({ userName: 'User Name' });
+    login(name, pass)
+      .then(result => {
+        Storage.setToken(result.headers[Storage.HEADERS_KEY]);
+        this.loadUser();
+      })
+      .catch(() => {
+        this.setState({ isLogged: false });
+      });
   }
 
   logOut() {
-    this.setState({ isLogged: false });
-    this.setState({ userName: '' });
+    this.setState({ isLogged: false, userName: '' });
+    logout();
+    Storage.deleteToken();
   }
 
   render() {

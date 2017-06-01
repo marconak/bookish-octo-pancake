@@ -12,3 +12,13 @@ export function login(name, pass) {
     }
   });
 }
+
+export function getUser() {
+  return axios.get('/api/user').then(resp => {
+    return resp.data;
+  });
+}
+
+export function logout() {
+  return axios.post('/logout', {});
+}

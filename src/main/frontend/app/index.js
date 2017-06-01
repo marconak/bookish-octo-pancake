@@ -6,6 +6,8 @@ import App from './component/App.js';
 
 import '../style/main.css';
 
+import './helpers/axios.js';
+
 const Home = () => (
   <Container>
     <App />

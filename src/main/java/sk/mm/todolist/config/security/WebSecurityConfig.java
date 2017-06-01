@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 
 @Configuration
 @EnableWebSecurity
@@ -42,6 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and()
+                .requestCache().requestCache(new NullRequestCache())
+                .and()
                 .formLogin()
                 .loginPage("/login")
                     .successHandler(customAuthenticationSuccessHandler)
@@ -52,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessHandler(customLogoutSuccessHandler)
                 .permitAll()
                 .and()
-                    .httpBasic().disable();;
+                    .httpBasic().disable();
     }
 
     @Override
