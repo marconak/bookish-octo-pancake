@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import sk.mm.todolist.api.bo.User;
 import sk.mm.todolist.api.repository.UserRepository;
-import sun.jvm.hotspot.oops.Array;
 
 @Component
 public class CustomUserDetailService implements UserDetailsService {
