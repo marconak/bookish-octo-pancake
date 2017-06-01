@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import LoginForm from './LoginForm.js';
 import UserBar from './UserBar.js';
@@ -36,5 +37,12 @@ class Nav extends Component {
     );
   }
 }
+
+Nav.propTypes = {
+  isLogged: PropTypes.bool.isRequired,
+  userName: PropTypes.string,
+  logOut: PropTypes.func.isRequired,
+  logIn: PropTypes.func.isRequired
+};
 
 export default Nav;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserBar = ({ userName, logOut }) => (
   <ul className="nav navbar-nav navbar-right">
@@ -20,5 +21,10 @@ const UserBar = ({ userName, logOut }) => (
     </li>
   </ul>
 );
+
+UserBar.propTypes = {
+  logOut: PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired
+};
 
 export default UserBar;
