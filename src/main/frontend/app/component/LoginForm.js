@@ -23,7 +23,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <form className="navbar-form navbar-right">
+      <form className="navbar-form navbar-right" onSubmit={this.handleSubmit}>
         <div className="form-group">
           <input
             type="text"
@@ -44,7 +44,7 @@ class LoginForm extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <button type="button" className="btn btn-default" onClick={this.handleSubmit}>Sign In</button>
+        <button type="submit" className="btn btn-default">Sign In</button>
       </form>
     );
   }

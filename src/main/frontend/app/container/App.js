@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Nav from './Nav.js';
+import Nav from '../component/Nav.js';
+import Todos from './Todos.js';
+import Container from '../component/Container.js';
 import { login, getUser, logout } from '../actions.js';
 import Storage from '../helpers/storage.js';
 
@@ -54,11 +56,13 @@ class App extends Component {
   }
 
   render() {
+    var body = this.state.isLogged ? <Todos /> : <h1>Home</h1>;
+
     return (
-      <div>
+      <Container>
         <Nav isLogged={this.state.isLogged} logIn={this.logIn} logOut={this.logOut} userName={this.state.userName} />
-        <h1>Home</h1>
-      </div>
+        {body}
+      </Container>
     );
   }
 }
