@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>todolist</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Simple todo list app</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -17,13 +17,11 @@
         <version>1.5.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,7 +39,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -58,8 +55,8 @@
                         <goals>
                             <goal>install-node-and-yarn</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                     </execution>
-
                     <execution>
                         <id>yarn install</id>
                         <goals>
@@ -69,49 +66,23 @@
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
-
                     <execution>
                         <id>Frontend production build</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>build</arguments>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
                     <nodeVersion>v7.10.0</nodeVersion>
                     <yarnVersion>v0.24.6</yarnVersion>
-                    <installDirectory>.mvn</installDirectory>
-                    <workingDirectory>src/main/app</workingDirectory>
+                    <installDirectory>target</installDirectory>
+                    <workingDirectory>src/main/frontend</workingDirectory>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>Copy frontend production build to resources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/classes</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/app/build/</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
-
-
 </project>

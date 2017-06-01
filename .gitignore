@@ -17,7 +17,6 @@ target/
 
 .mvn
 
-
 ### NetBeans ###
 nbproject/private/
 build/
@@ -26,5 +25,5 @@ dist/
 nbdist/
 .nb-gradle/
 
-src/main/app/node_modules
-src/main/app/build
+src/main/frontend/build
+src/main/frontend/node_modules
