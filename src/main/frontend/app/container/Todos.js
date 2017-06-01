@@ -3,36 +3,59 @@ import React, { Component } from 'react';
 import TodoAdd from '../component/TodoAdd.js';
 import TodoList from '../component/TodoList.js';
 
+import { addTodo, updateTodo, deleteTodo, getTodos } from '../actions.js';
+
+const PER_PAGE = 10;
+
 export default class Todos extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: []
+      todos: [],
+      pagination: { page: 1, perPage: PER_PAGE, totalPages: 0, totalElements: 0 }
     };
     this.onAdd = this.onAdd.bind(this);
     this.onComplete = this.onComplete.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.loadTodos = this.loadTodos.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadTodos();
+  }
+
+  loadTodos() {
+    getTodos(this.state.pagination.page, PER_PAGE).then(todos => {
+      this.setState({
+        pagination: todos.pagination,
+        todos: todos.content
+      });
+    });
   }
 
   onComplete(inTodo) {
-    var todos = this.state.todos.map(function(todo) {
-      if (todo.id === inTodo.id) {
-        todo.completed = !todo.completed;
-      }
-      return todo;
+    inTodo.completed = !inTodo.completed;
+    updateTodo(inTodo).then(updated => {
+      var todos = this.state.todos.map(todo => {
+        return todo.id === updated.id ? updated : todo;
+      });
+      this.setState({ todos: todos });
     });
-    this.setState({ todos: todos });
   }
 
   onAdd(todo) {
-    var todos = this.state.todos;
-    todos.unshift({ value: todo, id: Math.random(), completed: false });
-    this.setState({ todos: todos });
+    addTodo({ value: todo, completed: false }).then(newTodo => {
+      var todos = this.state.todos;
+      todos.unshift(newTodo);
+      var newTodos = todos.slice(0, PER_PAGE);
+      this.setState({ todos: newTodos });
+    });
   }
 
   onDelete(todo) {
-    //TODO
-    console.log('DELETE', todo.id);
+    deleteTodo(todo.id).then(() => {
+      this.loadTodos();
+    });
   }
 
   render() {

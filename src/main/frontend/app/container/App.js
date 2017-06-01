@@ -38,10 +38,10 @@ class App extends Component {
   }
 
   logIn(name, pass) {
-    this.setState({ isLogged: true });
     login(name, pass)
       .then(result => {
         Storage.setToken(result.headers[Storage.HEADERS_KEY]);
+        this.setState({ isLogged: true });
         this.loadUser();
       })
       .catch(() => {
