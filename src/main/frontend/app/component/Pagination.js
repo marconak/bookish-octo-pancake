@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const Pagination = ({ onPagination, newerClass, olderClass }) => (
+const Pagination = ({ onPagination, newerClass, olderClass, count, page, totalPages }) => (
   <nav aria-label="...">
     <ul className="pager">
       <li className="previous">
@@ -15,6 +15,7 @@ const Pagination = ({ onPagination, newerClass, olderClass }) => (
           <span aria-hidden="true">←</span> Newer
         </a>
       </li>
+      <li>All todos({count}), Page {page}/{totalPages}</li>
       <li className="next">
         <a
           type="button"
@@ -32,7 +33,12 @@ const Pagination = ({ onPagination, newerClass, olderClass }) => (
 );
 
 Pagination.propTypes = {
-  onPagination: PropTypes.func.isRequired
+  onPagination: PropTypes.func.isRequired,
+  newerClass: PropTypes.string.isRequired,
+  olderClass: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired
 };
 
 export default Pagination;

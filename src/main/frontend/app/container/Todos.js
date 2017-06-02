@@ -13,7 +13,7 @@ export default class Todos extends Component {
     super(props);
     this.state = {
       todos: [],
-      pagination: { page: 1, perPage: PER_PAGE, totalPages: 0, totalElements: 0 }
+      pagination: { page: 1, perPage: PER_PAGE, totalPages: 1, totalElements: 0 }
     };
     this.onAdd = this.onAdd.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
@@ -75,7 +75,14 @@ export default class Todos extends Component {
         <div className="col-md-6 col-md-offset-3">
           <TodoAdd onAdd={this.onAdd} />
           <TodoList todos={this.state.todos} onUpdate={this.onUpdate} onDelete={this.onDelete} />
-          <Pagination onPagination={this.onPagination} newerClass={newerClass} olderClass={olderClass} />
+          <Pagination
+            onPagination={this.onPagination}
+            newerClass={newerClass}
+            olderClass={olderClass}
+            count={this.state.pagination.totalElements}
+            page={this.state.pagination.page}
+            totalPages={this.state.pagination.totalPages}
+          />
         </div>
       </div>
     );
