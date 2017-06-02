@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import TodoEdit from './TodoEdit.js';
+
 export default class TodoItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
-      value: ''
+      isEditing: false
     };
     this.onStartEdit = this.onStartEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.onComplete = this.onComplete.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.updateTodo = this.updateTodo.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
   onStartEdit() {
     const editing = !this.state.isEditing;
-    this.setState({ isEditing: editing, value: this.props.todo.value });
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ isEditing: editing });
   }
 
   handleCancel(event) {
@@ -41,35 +37,21 @@ export default class TodoItem extends Component {
     this.props.onDelete(this.props.todo);
   }
 
-  updateTodo(event) {
-    if (this.state.value.length >= 3 && this.state.value.length < 256) {
+  updateTodo(event, value) {
+    if (value.length >= 3 && value.length < 256) {
       const todo = this.props.todo;
-      todo.value = this.state.value;
+      todo.value = value;
       this.props.onUpdate(todo);
-      this.setState({ isEditing: false, value: '' });
+      this.setState({ isEditing: false });
     }
     event.preventDefault();
   }
 
-  editForm() {
-    return (
-      <form noValidate onSubmit={this.updateTodo}>
-        <input
-          type="text"
-          name="value"
-          className="form-control"
-          placeholder="Update todo (Min 3 characters)"
-          value={this.state.value}
-          onChange={this.handleChange}
-          onKeyDown={this.handleCancel}
-        />
-      </form>
-    );
-  }
-
   render() {
     const todo = this.props.todo.completed ? <s>{this.props.todo.value}</s> : <span>{this.props.todo.value}</span>;
-    var value = this.state.isEditing ? this.editForm() : todo;
+    var value = this.state.isEditing
+      ? <TodoEdit value={this.props.todo.value} updateTodo={this.updateTodo} handleCancel={this.handleCancel} />
+      : todo;
 
     return (
       <li className="list-group-item row">
