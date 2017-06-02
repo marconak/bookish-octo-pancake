@@ -49,7 +49,12 @@ export default class Todos extends Component {
       var todos = this.state.todos;
       todos.unshift(newTodo);
       var newTodos = todos.slice(0, PER_PAGE);
-      this.setState({ todos: newTodos });
+
+      const pagination = this.state.pagination;
+      pagination.totalElements++;
+      pagination.totalPages = Math.ceil(pagination.totalElements / pagination.perPage);
+
+      this.setState({ todos: newTodos, pagination: pagination });
     });
   }
 
