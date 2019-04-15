@@ -63,7 +63,7 @@ public class TodoServiceImpl implements TodoService {
 
         Pagination pagination = Pagination.create(page, perPage);
 
-        PageRequest pageRequest = new PageRequest(pagination.getPage() > 0 ? pagination.getPage() - 1 : 0,
+        PageRequest pageRequest = PageRequest.of(pagination.getPage() > 0 ? pagination.getPage() - 1 : 0,
                 pagination.getPerPage(), Sort.Direction.DESC, "id");
 
         Page<Todo> todoPage = todoRepo.findByUser(user, pageRequest);

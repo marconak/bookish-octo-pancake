@@ -52,7 +52,7 @@ public class TodoRepoTest extends TodolistApplicationTests {
         Todo todo = createTodo(user.get());
         assertNotNull(todo);
 
-        Page<Todo> todos = todoRepo.findByUser(user.get(), new PageRequest(0, 100, Sort.Direction.DESC, "id"));
+        Page<Todo> todos = todoRepo.findByUser(user.get(), PageRequest.of(0, 100, Sort.Direction.DESC, "id"));
         assertFalse(todos.getContent().isEmpty());
         assertTrue(todos.getTotalElements() == 1L);
     }
