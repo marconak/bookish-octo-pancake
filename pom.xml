@@ -93,8 +93,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <nodeVersion>v8.15.0</nodeVersion>
-                    <yarnVersion>v1.12.3</yarnVersion>
+                    <nodeVersion>v10.16.2</nodeVersion>
+                    <yarnVersion>v1.17.3</yarnVersion>
                     <installDirectory>target</installDirectory>
                     <workingDirectory>src/main/frontend</workingDirectory>
                 </configuration>
