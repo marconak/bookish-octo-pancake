@@ -39,17 +39,16 @@ public class TodoServiceImpl implements TodoService {
     public UiTodo save(UiTodo todo) {
         User user = getUser();
         Todo newTodo = new Todo(todo.getValue(), user);
-        return new UiTodo(todoRepo.save(newTodo));
+        return UiTodo.of(todoRepo.save(newTodo));
     }
 
     @Override
-    public UiTodo update(UiTodo todo) throws NotFoundException {
-        Todo dbTodo = getTodo(todo.getId());
+    public UiTodo update(Long id, UiTodo todo) throws NotFoundException {
+        Todo dbTodo = getTodo(id);
         dbTodo.setValue(todo.getValue());
-        dbTodo.setCompleted(todo.isCompleted());
-        return new UiTodo(todoRepo.save(dbTodo));
+        dbTodo.setCompleted(todo.getCompleted());
+        return UiTodo.of(todoRepo.save(dbTodo));
     }
-
 
     @Override
     public void delete(long id) throws NotFoundException {
@@ -71,7 +70,7 @@ public class TodoServiceImpl implements TodoService {
         pagination.setTotalPages(todoPage.getTotalPages());
         pagination.setTotaltems((int) todoPage.getTotalElements());
 
-        List<UiTodo> todos = todoPage.getContent().stream().map(UiTodo::new).collect(Collectors.toList());
+        List<UiTodo> todos = todoPage.getContent().stream().map(UiTodo::of).collect(Collectors.toList());
 
         return new PageResult<UiTodo>(todos, pagination);
     }

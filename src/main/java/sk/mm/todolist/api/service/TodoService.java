@@ -11,12 +11,12 @@ import sk.mm.todolist.api.ui.UiTodo;
 @Transactional
 public interface TodoService {
 
-    public UiTodo save(UiTodo todo);
+    UiTodo save(UiTodo todo);
 
-    public UiTodo update(UiTodo todo) throws NotFoundException;
+    UiTodo update(Long id, UiTodo todo) throws NotFoundException;
 
-    public void delete(long id) throws NotFoundException;
+    void delete(long id) throws NotFoundException;
 
-    public PageResult<UiTodo> getTodos(int page, int perPage);
+    PageResult<UiTodo> getTodos(int page, int perPage);
 
 }
